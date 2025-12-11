@@ -193,36 +193,50 @@ useEffect(() => {
                 List of uploaded songs by {localStorage.getItem("name")}
                 </Typography>
             </Paper>
+{/* Logout button: responsive placement */}
+<Box
+  sx={{
+    position: "fixed",
+    top: { xs: 12, sm: 20 },         // higher on desktop, tighter on mobile
+    right: { xs: 12, md: 16 },       // 12px from right on phones, 16 on larger
+    zIndex: 1200,
+    display: "flex",
+    gap: 2,
+    alignItems: "center"
+  }}
+>
+  <Button
+    variant="outlined"
+    onClick={handleLogout}
+    sx={{ color:"white",backgroundColor:"crimson",px: 1.5, py: 0.6 }}
+  >
+    Logout
+  </Button>
+</Box>
 
-            {/* Logout button */}
-            <Box
-                sx={{
-                position: "fixed",
-                top: 20,
-                right: 16,
-                zIndex: 1000,
-                }}
-            >
-                <Button  variant="outlined" onClick={handleLogout} sx={{ mt: 0, ml: 2 }}>
-                Logout
-                </Button>
-            </Box>
-                        <Box
-                sx={{
-                position: "fixed",
-                top: 50,
-                right: 160,
-                zIndex: 1000,
-                }}
-            >
-                <Button color="info"  variant="outlined" onClick={()=>setTimeout(() => {
-                    {navigate("/admin-dashboard")}
-                }, 200)} sx={{ top :20, right:120 ,position:"fixed" }}>
-                Add More
-                </Button>
-            </Box>
+{/* Add More button: move left of logout on desktop, stack under it on mobile */}
+<Box
+  sx={{
+    position: "fixed",
+    top: { xs: 56, sm: 20 },        
+    right: { xs: 12, md: 120 },      
+    zIndex: 1200,
+    display: "flex",
+    alignItems: "center"
+  }}
+>
+  <Button
+    color="info"
+    variant="outlined"
+    onClick={() => navigate("/admin-dashboard")}
+    sx={{ px: 1.5, py: 0.6 }}
+  >
+    Add More
+  </Button>
+</Box>
+
             {/* Song list */}
-            <List sx={{ display:"flex",flexDirection:"column",width: "100%", maxWidth: 700, bgcolor: "background.paper",justifySelf:"center",gap:2 }}>
+            <List sx={{ marginLeft:20,display:"flex",flexDirection:"column",width: "100%", maxWidth: 600, bgcolor: "background.paper",justifySelf:"center",gap:2 }}>
                 {songs && songs.length > 0 ? (
                 songs.map((song) => (
                     <React.Fragment key={song._id}>
