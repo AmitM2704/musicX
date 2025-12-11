@@ -253,17 +253,19 @@ const Sidebar = () => {
           </Typography>
         </Paper>
 
-{/* Responsive Top Hits / songs */}
 <Stack
   divider={<Divider orientation="vertical" flexItem />}
   marginTop={5}
-  direction={{ xs: "column", sm: "row" }}   // column on phones, row on wider screens
+  direction="row"
   spacing={2}
   sx={{
-    flexWrap: { xs: "nowrap", sm: "wrap" }, // nowrap on phones (stack), wrap on larger screens
-    justifyContent: "center",
-    alignItems: "flex-start",
-    px: { xs: 2, sm: 0 }                    // small horizontal padding on phones
+    flexWrap: { xs: "nowrap", sm: "wrap" },     // no wrapping on mobile, wrap on desktop
+    overflowX: { xs: "auto", sm: "visible" },   // scrollable on mobile
+    overflowY: "hidden",
+    "&::-webkit-scrollbar": { display: "none" }, // hide scroll bar
+    scrollbarWidth: "none",
+    justifyContent: { xs: "flex-start", sm: "center" },
+    paddingLeft: { xs: 1, sm: 0 },               // small padding on phones
   }}
 >
   {(songs || []).map((song, idx) => (
@@ -275,31 +277,26 @@ const Sidebar = () => {
       }}
       sx={{
         cursor: "pointer",
-        // responsive sizing:
-        flex: { xs: "1 0 100%", sm: "0 0 140px" }, // full width on mobile, fixed 140px on desktop
-        maxWidth: { xs: "100%", sm: 140 },
+        flex: "0 0 140px",          // fixed width tiles (prevents shrinking)
         textAlign: "center",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 1,
-        boxSizing: "border-box",
       }}
     >
       <Box
         sx={{
-          width: { xs: "100%", sm: "100%" }, // image fills the container
+          width: "100%",
           height: 140,
           backgroundImage: `url(${song.coverUrl})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           borderRadius: 2,
           boxShadow: 4,
-          cursor: "pointer",
-          flexShrink: 0,
+          flexShrink: 0,             
         }}
       />
+
       <Typography
         variant="body2"
         sx={{
@@ -317,14 +314,14 @@ const Sidebar = () => {
   ))}
 </Stack>
 
-        {/* MOST PLAYED */}
+      
         <Paper elevation={1} sx={{ marginTop: 5, textAlign: "left", padding: 0 }}>
           <Typography sx={{ backgroundColor:"magenta",fontFamily: "fantasy", color: "black" }} variant="h4">
             Most Played in India
           </Typography>
         </Paper>
 
-        {/* horizontal scroll: removed marginLeft and added left padding + scrollPadding */}
+      
         <Stack
           divider={<Divider orientation="vertical" flexItem />}
           direction="row"
