@@ -128,7 +128,7 @@ const ADSignup = () => {
         {loading ? <CircularProgress size={24} /> : "Login"}
       </Button>
       <Link  component={RouterLink}
-      to="/admin-login"
+      to="/login"
       underline="hover"
       color="primary"
       sx={{ fontWeight: "bold" }}>

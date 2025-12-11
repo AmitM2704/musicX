@@ -88,7 +88,7 @@ const ADLogin = () => {
 
       
             <Link  component={RouterLink}
-      to="/admin-signup"
+      to="/signup"
       underline="hover"
       color="red"
       sx={{ fontWeight: "bold",fontStyle:"italic" }}>
