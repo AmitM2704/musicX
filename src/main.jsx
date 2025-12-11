@@ -8,7 +8,7 @@ import { MusicProvider } from './components/context/MusicCont.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-    <MusicProvider><App /></MusicProvider>
+      <App />
     </BrowserRouter>
             
     
