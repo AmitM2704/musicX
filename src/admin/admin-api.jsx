@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://music-x-server.onrender.com//api/admin"
+  baseURL: "https://music-x-server.onrender.com/api/admin"
 });
 
 // Add token to requests automatically
