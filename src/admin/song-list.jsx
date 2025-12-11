@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect,useState } from "react";
 import UploadSong from "./UploadSong";
-import { Paper,Typography,Box,Button,CircularProgress } from "@mui/material";
+import {  ListItemButton,ListItemIcon, Toolbar,AppBar,IconButton,Paper,Typography,Box,Button,CircularProgress,Drawer } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import List from '@mui/material/List';
@@ -11,11 +11,26 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import API from "./admin-api";
+import { useTheme, useMediaQuery } from '@mui/material';
+
+import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
+import QueueMusicIcon from "@mui/icons-material/QueueMusic";
+//import ListItemButton from "@mui/icons-material/ListItem";
+
+
+
 
 console.log(localStorage.getItem("name"));
 console.log(localStorage.getItem("isadmin"))
 const isadmin = localStorage.getItem("isadmin")
 const SongList = () => {
+    const theme = useTheme();
+
+    const drawerWidth=240;
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const isMobile = !isDesktop;
   const navigate = useNavigate();
  useEffect(() => {
   // read fresh values inside effect (not at module top)
@@ -47,6 +62,13 @@ const SongList = () => {
   // navigate("/admin-dashboard"); // only use if you actually need to redirect
 }, [navigate]);
 
+ const toggleDrawer = () => setOpen(!open);
+  const [open, setOpen] = useState(isDesktop);
+
+
+  useEffect(() => {
+    setOpen(isDesktop);
+  }, [isDesktop]);
 
 useEffect(() => {
     API.get("/list")
@@ -102,7 +124,65 @@ useEffect(() => {
 
     const [songs, setSongs] = useState([]);
         return (
+            
             <div>
+
+                 {/* MOBILE APPBAR */}
+      {isMobile && (
+        <AppBar position="fixed" color="transparent" elevation={0} sx={{ bgcolor: "white" }}>
+          <Toolbar sx={{ px: 1 }}>
+            <IconButton onClick={toggleDrawer} edge="start">
+              <MenuIcon />
+            </IconButton>
+
+            <Typography variant="h6" sx={{ backgroundColor:"black",color:"white",flexGrow: 1, textAlign: "center", fontFamily: "cursive" }}>
+              MusicX
+            </Typography>
+
+            <Box sx={{ width: 40 }} /> {/* keeps title centered */}
+          </Toolbar>
+        </AppBar>
+      )}
+
+                    <Drawer
+        variant={isDesktop ? "permanent" : "temporary"}
+        open={isDesktop ? true : open}
+        onClose={toggleDrawer}
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            backgroundColor: "black",
+            width: drawerWidth,
+            boxSizing: "border-box"
+          }
+        }}
+      >
+        <Toolbar sx={{ display: "flex" }}>
+          <Typography color="white" variant="h6" noWrap>
+            My Dashboard
+          </Typography>
+        </Toolbar>
+
+        <List>
+          {[
+            { text: "Home", icon: <HomeIcon />, path: "/home" },
+            { text: "List", icon: <QueueMusicIcon />, path: "/song-list" },
+            { text: "About", icon: <InfoIcon />, path: "/home" }
+          ].map((item) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton
+                sx={{ "&:hover": { backgroundColor: "rgba(255,255,255,0.15)" } }}
+                onClick={()=>navigate(item.path)}
+              >
+                <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
+                <ListItemText sx={{ color: "white" }} primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+                
             {/* Header */}
             <Paper sx={{ display: "flex", justifyContent: "center" }}>
                 <Typography variant="h4">MusicX</Typography>
@@ -137,12 +217,12 @@ useEffect(() => {
             >
                 <Button color="info"  variant="outlined" onClick={()=>setTimeout(() => {
                     {navigate("/admin-dashboard")}
-                }, 200)} sx={{ top: 20, left:20 ,position:"fixed" }}>
+                }, 200)} sx={{ top :20, right:120 ,position:"fixed" }}>
                 Add More
                 </Button>
             </Box>
             {/* Song list */}
-            <List sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}>
+            <List sx={{ display:"flex",flexDirection:"column",width: "100%", maxWidth: 700, bgcolor: "background.paper",justifySelf:"center",gap:2 }}>
                 {songs && songs.length > 0 ? (
                 songs.map((song) => (
                     <React.Fragment key={song._id}>
