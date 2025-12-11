@@ -36,7 +36,7 @@ const Dashboard = () => {
   return (
     <div>
       <Paper sx={{display:"flex",justifyContent:"center"}}>
-        <Typography variant="h2">HOMEY</Typography>
+        <Typography variant="h4">MusicX</Typography>
       </Paper>
       <Paper sx={{display:"flex",justifyContent:"center"}}><Typography fontFamily={"fantasy"} variant="h4"> Welcome back , {localStorage.getItem("name")}</Typography></Paper>
       

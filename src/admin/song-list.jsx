@@ -87,7 +87,7 @@ useEffect(() => {
             <div>
             {/* Header */}
             <Paper sx={{ display: "flex", justifyContent: "center" }}>
-                <Typography variant="h2">HOMEY</Typography>
+                <Typography variant="h4">MusicX</Typography>
             </Paper>
 
             <Paper elevation={1} sx={{mb:2, width:"100%",display: "flex", justifyContent: "center" }}>
