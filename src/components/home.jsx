@@ -159,10 +159,12 @@ const Sidebar = () => {
             variant="contained"
             onClick={logout}
             sx={{
+              display:"flex",
+              width:"fit-content",
               color: "black",
               backgroundColor: "crimson",
               position: "fixed",
-              right: 16,
+              right: "0",
               top: "5%",
               transform: "translateY(-50%)",
               zIndex: 2000,
@@ -179,16 +181,18 @@ const Sidebar = () => {
             variant="contained"
             onClick={() => nav("/login")}
             sx={{
+              display:"flex",
+              width:"fit-content",
               color: "black",
               backgroundColor: "seagreen",
               position: "fixed",
-              right: 16,
+              right: "0",
               top: "5%",
               transform: "translateY(-50%)",
               zIndex: 2000,
             }}
           >
-            Login/Signup
+            Login
           </Button>
         </div>
       )}
