@@ -236,7 +236,7 @@ useEffect(() => {
 </Box>
 
             {/* Song list */}
-            <List sx={{ marginLeft:30,display:"flex",flexDirection:"column",width: "100%", maxWidth: 550, bgcolor: "background.paper",justifySelf:"left",gap:2 }}>
+            <List sx={{ marginLeft:0,display:"flex",flexDirection:"column",width: "100%", maxWidth: 600, bgcolor: "background.paper",justifySelf: isMobile?"left":"center",gap:2 }}>
                 {songs && songs.length > 0 ? (
                 songs.map((song) => (
                     <React.Fragment key={song._id}>
@@ -263,7 +263,7 @@ useEffect(() => {
                                 controls
                                 type="audio/mpeg"
                                 src={song.songUrl} // Cloudinary mp3 URL
-                                style={{ width: "220%",height:"50px", marginTop: "30px" }}
+                                style={{ display:"flex",marginLeft:-50,width:!isMobile? "220%" : "100%",height:"50px", marginTop: "30px",minWidth:"150px" }}
                             ></audio>
                             {/* <Box
                                 sx={{

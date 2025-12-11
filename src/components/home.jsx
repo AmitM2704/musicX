@@ -258,7 +258,7 @@ const Sidebar = () => {
           marginTop={5}
           direction="row"
           spacing={2}
-          sx={{ flexWrap: "wrap", justifyContent: "center" }}
+          sx={{ flexDirection:"row",flexWrap: "wrap", justifyContent: "center" }}
         >
           {(songs || []).map((song, idx) => (
             <Box
