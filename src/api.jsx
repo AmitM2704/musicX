@@ -1,5 +1,5 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "https://music-x-server.onrender.com/api/admin" });
+const API = axios.create({ baseURL: import.meta.env.VITE_API_BASE_URL || "" });
 
 export default API;
