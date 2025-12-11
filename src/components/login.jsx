@@ -31,7 +31,7 @@ const ADLogin = () => {
       localStorage.setItem("isadmin", checkadmin);
       toast.info("Logged in!", { position: "top-center" });
       //if(check){
-      navigate("/home")//;}
+      navigate("/")//;}
      // else navigate("/home");
       //alert("ok")
       console.log(checkadmin);

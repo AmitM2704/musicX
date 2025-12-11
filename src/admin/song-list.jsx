@@ -166,9 +166,9 @@ useEffect(() => {
 
         <List>
           {[
-            { text: "Home", icon: <HomeIcon />, path: "/home" },
+            { text: "Home", icon: <HomeIcon />, path: "/" },
             { text: "List", icon: <QueueMusicIcon />, path: "/song-list" },
-            { text: "About", icon: <InfoIcon />, path: "/home" }
+            { text: "About", icon: <InfoIcon />, path: "/" }
           ].map((item) => (
             <ListItem key={item.text} disablePadding>
               <ListItemButton
@@ -198,7 +198,7 @@ useEffect(() => {
   sx={{
     position: "fixed",
     top: { xs: 12, sm: 20 },         // higher on desktop, tighter on mobile
-    right: { xs: 12, md: 16 },       // 12px from right on phones, 16 on larger
+    right: { xs: 12, md: 20 },       // 12px from right on phones, 16 on larger
     zIndex: 1200,
     display: "flex",
     gap: 2,
@@ -236,7 +236,7 @@ useEffect(() => {
 </Box>
 
             {/* Song list */}
-            <List sx={{ marginLeft:20,display:"flex",flexDirection:"column",width: "100%", maxWidth: 600, bgcolor: "background.paper",justifySelf:"center",gap:2 }}>
+            <List sx={{ marginLeft:30,display:"flex",flexDirection:"column",width: "100%", maxWidth: 550, bgcolor: "background.paper",justifySelf:"left",gap:2 }}>
                 {songs && songs.length > 0 ? (
                 songs.map((song) => (
                     <React.Fragment key={song._id}>

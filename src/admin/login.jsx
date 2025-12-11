@@ -24,7 +24,7 @@ const ADLogin = () => {
       localStorage.setItem("name",(data.user.name));
       localStorage.setItem("user", JSON.stringify(data.user.name));
       toast.info("Logged in!", { position: "top-center" });
-      navigate("/home");
+      navigate("/");
       //alert("ok")
       
     } catch (err) {

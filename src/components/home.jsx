@@ -63,7 +63,7 @@ const Sidebar = () => {
   const logout = () => {
   localStorage.removeItem("token");
   setIsLoggedIn(false);
-  nav("/home"); 
+  nav("/"); 
 
     window.location.reload();
 
@@ -220,9 +220,9 @@ const Sidebar = () => {
 
         <List>
           {[
-            { text: "Home", icon: <HomeIcon />, path: "/home" },
+            { text: "Home", icon: <HomeIcon />, path: "/" },
             { text: "List", icon: <QueueMusicIcon />, path: "/song-list" },
-            { text: "About", icon: <InfoIcon />, path: "/home" }
+            { text: "About", icon: <InfoIcon />, path: "/" }
           ].map((item) => (
             <ListItem key={item.text} disablePadding>
               <ListItemButton
