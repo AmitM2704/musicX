@@ -26,7 +26,7 @@ function App() {
 
 
 <MusicProvider>
-    <Router>
+    
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
@@ -43,7 +43,7 @@ function App() {
         <Route path="/song-list" element={<SongList /> } />
 
       </Routes>
-    </Router>
+    
     <ToastContainer position="top-center" autoClose={2000} />
     </MusicProvider>
 
