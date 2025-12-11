@@ -17,7 +17,8 @@ import ProtectedRoute from "./components/protected.jsx";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
-  
+  console.log("APP MODULE LOADED");
+
 
   return (
     <div className='app'>
@@ -29,7 +30,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home name="Amit"/>} />
+        <Route path="/" element={<Home name="Amit"/>} />
         <Route path="/signup" element={<ADSignup/>} />
         <Route path="/login" element={ <ADLogin />} />
         {/* <Route path="/admin-dashboard" element={<Dashboard /> } /> */}
