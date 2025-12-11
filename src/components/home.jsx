@@ -253,56 +253,69 @@ const Sidebar = () => {
           </Typography>
         </Paper>
 
-        <Stack
-          divider={<Divider orientation="vertical" flexItem />}
-          marginTop={5}
-          direction="row"
-          spacing={2}
-          sx={{ flexDirection:"row",flexWrap: "wrap", justifyContent: "center" }}
-        >
-          {(songs || []).map((song, idx) => (
-            <Box
-              key={song._id || idx}
-              onClick={() => {
-                setCurrentSongIndex(idx);
-                setShouldPlay(true);
-              }}
-              sx={{
-                cursor: "pointer",
-                flex: "0 0 140px",
-                textAlign: "center",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center"
-              }}
-            >
-              <Box
-                sx={{
-                  width: "100%",
-                  height: 140,
-                  backgroundImage: `url(${song.coverUrl})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  borderRadius: 2,
-                  boxShadow: 4
-                }}
-              />
-              <Typography
-                variant="body2"
-                sx={{
-                  mt: 1,
-                  width: "100%",
-                  fontWeight: 600,
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap"
-                }}
-              >
-                {song.title}
-              </Typography>
-            </Box>
-          ))}
-        </Stack>
+{/* Responsive Top Hits / songs */}
+<Stack
+  divider={<Divider orientation="vertical" flexItem />}
+  marginTop={5}
+  direction={{ xs: "column", sm: "row" }}   // column on phones, row on wider screens
+  spacing={2}
+  sx={{
+    flexWrap: { xs: "nowrap", sm: "wrap" }, // nowrap on phones (stack), wrap on larger screens
+    justifyContent: "center",
+    alignItems: "flex-start",
+    px: { xs: 2, sm: 0 }                    // small horizontal padding on phones
+  }}
+>
+  {(songs || []).map((song, idx) => (
+    <Box
+      key={song._id || idx}
+      onClick={() => {
+        setCurrentSongIndex(idx);
+        setShouldPlay(true);
+      }}
+      sx={{
+        cursor: "pointer",
+        // responsive sizing:
+        flex: { xs: "1 0 100%", sm: "0 0 140px" }, // full width on mobile, fixed 140px on desktop
+        maxWidth: { xs: "100%", sm: 140 },
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 1,
+        boxSizing: "border-box",
+      }}
+    >
+      <Box
+        sx={{
+          width: { xs: "100%", sm: "100%" }, // image fills the container
+          height: 140,
+          backgroundImage: `url(${song.coverUrl})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          borderRadius: 2,
+          boxShadow: 4,
+          cursor: "pointer",
+          flexShrink: 0,
+        }}
+      />
+      <Typography
+        variant="body2"
+        sx={{
+          mt: 1,
+          width: "100%",
+          fontWeight: 600,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {song.title}
+      </Typography>
+    </Box>
+  ))}
+</Stack>
 
         {/* MOST PLAYED */}
         <Paper elevation={1} sx={{ marginTop: 5, textAlign: "left", padding: 0 }}>

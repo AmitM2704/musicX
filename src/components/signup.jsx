@@ -89,7 +89,7 @@ const ADSignup = () => {
   return (
     <div>
         <Paper sx={{display:"flex",justifyContent:"center"}}>
-          <Typography variant="h2">HOMEY</Typography>
+          <Typography sx={{fontFamily:"cursive"}} variant="h2">MusicX</Typography>
         </Paper>
     <Box display="flex" flexDirection="column" maxWidth={400} mx="auto" mt={10}>
       
