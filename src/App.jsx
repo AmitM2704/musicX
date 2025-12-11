@@ -31,8 +31,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home name="Amit"/>} />
-        <Route path="/signup" element={<ADSignup/>} />
-        <Route path="/login" element={ <ADLogin />} />
+        <Route path="/admin-signup" element={<ADSignup/>} />
+        <Route path="/admin-login" element={ <ADLogin />} />
         {/* <Route path="/admin-dashboard" element={<Dashboard /> } /> */}
                         <Route path="/admin-dashboard" element={
             <ProtectedRoute>
