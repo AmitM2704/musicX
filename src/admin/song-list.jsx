@@ -12,23 +12,41 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import API from "./admin-api";
 
-console.log(localStorage.getItem("name"))
+console.log(localStorage.getItem("name"));
+console.log(localStorage.getItem("isadmin"))
+const isadmin = localStorage.getItem("isadmin")
 const SongList = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    const isAuthenticated = !!localStorage.getItem("token");
-    if (!isAuthenticated) {
-      console.log("Login Required!");
-      toast.warning("Login required!", { position: "top-center" });
+ useEffect(() => {
+  // read fresh values inside effect (not at module top)
+  const token = localStorage.getItem("token");
+  const rawIsAdmin = localStorage.getItem("isadmin");
 
-      // Give the toast a moment to appear before redirect
-      setTimeout(() => {
-        navigate("/admin-login");
-      }, 1);
+  // quick parse: convert "true"/"1"/true -> boolean true
+  const isAdminFlag = rawIsAdmin === true || rawIsAdmin === "true" || rawIsAdmin === "1";
 
-    }
-    //else navigate("/admin-dashboard");
-  }, [navigate]);
+  const isAuthenticated = !!token;
+
+  // Wait until we know authentication; if no token -> redirect
+  if (!isAuthenticated) {
+    console.log("No token — redirect to login");
+    toast.warning("Admin Login required!", { position: "top-center" });
+    navigate("/login");
+    return;
+  }
+
+  // If authenticated but not admin -> redirect
+  if (!isAdminFlag) {
+    console.log("Authenticated but not admin — redirect to login");
+    toast.warning("Admin Login required!", { position: "top-center" });
+    navigate("/login");
+    return;
+  }
+
+
+  // navigate("/admin-dashboard"); // only use if you actually need to redirect
+}, [navigate]);
+
 
 useEffect(() => {
     API.get("/list")
@@ -57,7 +75,7 @@ useEffect(() => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/admin-login");
+    navigate("/login");
     toast.info("Logged Out!", { position: "top-center" });
 
   };

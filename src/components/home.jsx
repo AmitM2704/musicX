@@ -1,3 +1,4 @@
+// Sidebar.jsx (updated: hide Login/Signup when user is logged in)
 import "./home.css";
 import MusicSlider from "./slider";
 import { useTheme, useMediaQuery } from '@mui/material';
@@ -54,6 +55,52 @@ const Sidebar = () => {
   const [open, setOpen] = useState(isDesktop);
   const { playSong } = useMusic();
 
+  // ---------- New: login state ----------
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authChecking, setAuthChecking] = useState(true);
+
+
+  const logout = () => {
+  localStorage.removeItem("token");
+  setIsLoggedIn(false);
+  nav("/home"); 
+
+    window.location.reload();
+
+};
+
+  useEffect(() => {
+    // check local storage for token first
+    const token = localStorage.getItem("token"); // change key if you use different key
+    if (!token) {
+      setIsLoggedIn(false);
+      setAuthChecking(false);
+      return;
+    }
+
+
+
+    // optional: verify token with backend endpoint (e.g. /me)
+    const verify = async () => {
+      try {
+        setAuthChecking(true);
+        // send token as Bearer; adjust header if your API expects a different format
+        await API.get("/me", { headers: { Authorization: `Bearer ${token}` } });
+        setIsLoggedIn(true);
+      } catch (err) {
+        console.warn("Token validation failed:", err);
+        // token invalid -> clear it
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+      } finally {
+        setAuthChecking(false);
+      }
+    };
+
+    verify();
+  }, []);
+  // ---------------------------------------
+
   const toggleDrawer = () => setOpen(!open);
 
   useEffect(() => {
@@ -83,7 +130,7 @@ const Sidebar = () => {
               <MenuIcon />
             </IconButton>
 
-            <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center", fontFamily: "cursive" }}>
+            <Typography variant="h6" sx={{ backgroundColor:"black",color:"white",flexGrow: 1, textAlign: "center", fontFamily: "cursive" }}>
               MusicX
             </Typography>
 
@@ -98,10 +145,52 @@ const Sidebar = () => {
           marginTop: "-10px",
           marginInline: "50%",
           textAlign: "center",
-          color: "black"
+          backgroundColor:"black",
         }}>
-          MusicX
+         MusicX
         </h1>
+      )}
+
+      {/* Top-right Login/Signup button: only show when NOT logged in */}
+
+      {isLoggedIn && (
+        <div>
+          <Button
+            variant="contained"
+            onClick={logout}
+            sx={{
+              color: "black",
+              backgroundColor: "crimson",
+              position: "fixed",
+              right: 16,
+              top: "5%",
+              transform: "translateY(-50%)",
+              zIndex: 2000,
+            }}
+          >
+            Logout
+          </Button>
+        </div>
+      )}
+
+      {!isLoggedIn && (
+        <div>
+          <Button
+            variant="contained"
+            onClick={() => nav("/login")}
+            sx={{
+              color: "black",
+              backgroundColor: "seagreen",
+              position: "fixed",
+              right: 16,
+              top: "5%",
+              transform: "translateY(-50%)",
+              zIndex: 2000,
+            }}
+          >
+            Login/Signup
+          </Button>
+        </div>
       )}
 
       {/* DRAWER */}
@@ -121,20 +210,20 @@ const Sidebar = () => {
       >
         <Toolbar sx={{ display: "flex" }}>
           <Typography color="white" variant="h6" noWrap>
-            My App
+            My Dashboard
           </Typography>
         </Toolbar>
 
         <List>
           {[
-            { text: "Home", icon: <HomeIcon />, path: "/" },
-            { text: "List", icon: <QueueMusicIcon />, path: "/" },
-            { text: "About", icon: <InfoIcon />, path: "/" }
+            { text: "Home", icon: <HomeIcon />, path: "/home" },
+            { text: "List", icon: <QueueMusicIcon />, path: "/song-list" },
+            { text: "About", icon: <InfoIcon />, path: "/home" }
           ].map((item) => (
             <ListItem key={item.text} disablePadding>
               <ListItemButton
                 sx={{ "&:hover": { backgroundColor: "rgba(255,255,255,0.15)" } }}
-                onClick={() => setSearch(true)}
+                onClick={()=>nav(item.path)}
               >
                 <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
                 <ListItemText sx={{ color: "white" }} primary={item.text} />
@@ -154,8 +243,8 @@ const Sidebar = () => {
         }}
       >
         {/* Top Hits */}
-        <Paper elevation={1} sx={{ marginTop: 5, textAlign: "left", padding: 2 }}>
-          <Typography sx={{ fontFamily: "fantasy", color: "black" }} variant="h4">
+        <Paper elevation={1} sx={{marginTop: 5, textAlign: "left", padding: 0 }}>
+          <Typography sx={{ backgroundColor:"magenta",fontFamily: "fantasy", color: "black" }} variant="h4">
             Top Hits
           </Typography>
         </Paper>
@@ -212,8 +301,8 @@ const Sidebar = () => {
         </Stack>
 
         {/* MOST PLAYED */}
-        <Paper elevation={1} sx={{ marginTop: 5, textAlign: "left", padding: 2 }}>
-          <Typography sx={{ fontFamily: "fantasy", color: "black" }} variant="h4">
+        <Paper elevation={1} sx={{ marginTop: 5, textAlign: "left", padding: 0 }}>
+          <Typography sx={{ backgroundColor:"magenta",fontFamily: "fantasy", color: "black" }} variant="h4">
             Most Played in India
           </Typography>
         </Paper>
@@ -231,8 +320,8 @@ const Sidebar = () => {
             "&::-webkit-scrollbar": { display: "none" },
             scrollbarWidth: "none",
             pb: 1,
-            pl: { xs: 2, md: 0 },                     // ensure first items are visible on small screens
-            scrollPaddingInlineStart: "16px"         // helpful for focus/scroll snapping
+            pl: { xs: 2, md: 0 },
+            scrollPaddingInlineStart: "16px"
           }}
         >
           {[1, 2, 3, 4, 5, 6, 7, 8].map((item, idx) => (
@@ -244,7 +333,7 @@ const Sidebar = () => {
                 minWidth: 120,
                 height: 120,
                 textAlign: "center",
-                backgroundColor: "cornsilk",
+                backgroundColor: "azure",
                 "&:hover": { backgroundColor: "antiquewhite" },
                 cursor: "pointer",
                 boxShadow: 4,
@@ -260,8 +349,8 @@ const Sidebar = () => {
         </Stack>
 
         {/* YOURS */}
-        <Paper elevation={1} sx={{ marginTop: 5, textAlign: "left", padding: 2 }}>
-          <Typography sx={{ fontFamily: "fantasy", color: "black" }} variant="h4">
+        <Paper elevation={1} sx={{ marginTop: 5, textAlign: "left", padding: 0 }}>
+          <Typography sx={{ backgroundColor:"magenta",fontFamily: "fantasy", color: "black" }} variant="h4">
             Yours
           </Typography>
         </Paper>
@@ -276,7 +365,7 @@ const Sidebar = () => {
             pb: 2,
             "&::-webkit-scrollbar": { display: "none" },
             scrollbarWidth: "none",
-            pl: { xs: 2, md: 0 },                     // same left padding so first items visible
+            pl: { xs: 2, md: 0 },
             scrollPaddingInlineStart: "16px"
           }}
         >
@@ -288,7 +377,7 @@ const Sidebar = () => {
                 width: 140,
                 height: 100,
                 textAlign: "center",
-                backgroundColor: "cornsilk",
+                backgroundColor: "azure",
                 "&:hover": { backgroundColor: "antiquewhite" },
                 cursor: "pointer",
                 boxShadow: 4,

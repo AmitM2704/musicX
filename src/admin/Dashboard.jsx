@@ -16,7 +16,7 @@ const Dashboard = () => {
 
       // Give the toast a moment to appear before redirect
       setTimeout(() => {
-        navigate("/admin-login");
+        navigate("/login");
       }, 1);
 
     }
@@ -28,7 +28,7 @@ const Dashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/admin-login");
+    navigate("/login");
     toast.info("Logged Out!", { position: "top-center" });
 
   };

@@ -15,6 +15,8 @@ const ADLogin = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [check,setCheck]=useState(false);
+  const [checkadmin,setCheckAdmin]=useState(false);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,11 +28,13 @@ const ADLogin = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("name",(data.user.name));
       localStorage.setItem("user", JSON.stringify(data.user.name));
+      localStorage.setItem("isadmin", checkadmin);
       toast.info("Logged in!", { position: "top-center" });
-      if(check){
-      navigate("/admin-dashboard");}
-      else navigate("/home");
+      //if(check){
+      navigate("/home")//;}
+     // else navigate("/home");
       //alert("ok")
+      console.log(checkadmin);
       
     } catch (err) {
       // Safe error handling
@@ -49,7 +53,7 @@ const ADLogin = () => {
   return (
     <div>
        <Paper sx={{display:"flex",justifyContent:"center"}}>
-        <Typography variant="h2">HOMEY</Typography>
+        <Typography  sx={{fontFamily:"cursive"}} variant="h3">MusicX</Typography>
       </Paper>
     <Box display="flex" flexDirection="column" maxWidth={400} mx="auto" mt={10}>
       <TextField
@@ -83,7 +87,14 @@ const ADLogin = () => {
         
       </Button>
       <Typography>Are you an admin?
-          <Checkbox checked={check} onChange={(e)=>setCheck(e.target.checked)}></Checkbox>
+          <Checkbox checked={check} onChange={(e)=>{setCheck(e.target.checked)
+          if(!check){
+            setCheckAdmin(true)
+          console.log("user is an admin")}
+        else{setCheckAdmin(false)
+          console.log("user is not an admin")
+        }}
+          }></Checkbox>
       </Typography>
 
       
